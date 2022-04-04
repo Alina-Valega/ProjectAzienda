@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:s="http://jboss.org/schema/seam/taglib">
+
+<p:outputPanel id="editPanelD" style="text-align:center;">
+
+	<p:panelGrid columns="1" id="employeePanel">
+		<div class="ui-fluid">
+
+			<div class="p-field">
+				<h:outputText value="Nome" for="nameDep" styleClass="titoliPanel" />
+				<p:inputText
+					value="#{controllerDepartment.selectDepartment.nameDep}"
+					type="text" style="width:280px" />
+			</div>
+
+			<p:commandButton value="Modifica"
+				actionListener="#{controllerDepartment.saveUpdateDepartment()}"
+				process="editPanelD"
+				update="editPanelD,:departmentForm:departmentTable"></p:commandButton>
+
+		</div>
+	</p:panelGrid>
+</p:outputPanel>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:s="http://jboss.org/schema/seam/taglib">
+
+<p:outputPanel id="editPanelE" style="text-align:center;">
+
+	<p:panelGrid columns="1" id="employeePanel">
+		<div class="ui-fluid">
+
+			<div class="p-field">
+				<h:outputText value="Nome" for="nameEmp"  styleClass="titoliPanel"/>
+				<p:inputText value="#{controllerEmployee.selectEmployee.nameEmp}"
+					type="text" required="true" style="width:280px"/>
+			</div>
+
+			<div class="p-field">
+				<h:outputText value="Data Assunzione" for="dataEmp"  styleClass="titoliPanel"/>
+				<p:calendar id="dateEmp1"
+					value="#{controllerEmployee.selectEmployee.dateEmp}"
+					pattern="dd-MM-yyyy" showOn="button" required="true" />
+			</div>
+
+			<div class="p-field">
+				<h:outputText value="Salario" for="salaryEmp" styleClass="titoliPanel" />
+				<p:inputText value='#{controllerEmployee.selectEmployee.salaryEmp}'
+					type="text"  style="width:280px"/>
+			</div>
+
+			<div class="p-field p-col-12 p-md-4">
+				<p:outputLabel value="Dipartimento1"  styleClass="titoliPanel"/>
+				<p:selectOneMenu id="dipartimento1"
+					value="#{controllerEmployee.selectEmployee.idDep}"
+					label="Always Show Label" alwaysDisplayLabel="true">
+					<f:selectItems value="#{controllerEmployee.listDepartment}"
+						var="dep" itemValue="#{dep.idDep}" itemLabel="#{dep.nameDep}" />
+				</p:selectOneMenu>
+
+				<!--Bottoni-->
+				<p:commandButton value="Modifica"
+					actionListener="#{controllerEmployee.saveUpdateEmp()}"
+					process="editPanelE"
+					update="editPanelE,:employeeForm:employeeTable"></p:commandButton>
+
+			</div>
+
+		</div>
+	</p:panelGrid>
+</p:outputPanel>
+</html>

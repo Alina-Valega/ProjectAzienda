@@ -1,0 +1,101 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//IT"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<h:head>
+		<title>Lista Department</title>
+
+	</h:head>
+	<h:body>
+		<!-- Navbar -->
+		<ui:insert name="template">
+			<ui:include src="/pages/template.xhtml" />
+		</ui:insert>
+
+		<br />
+		<center>
+			<h2>
+				<h:outputText value="Department Records" />
+			</h2>
+		</center>
+
+
+		<h:form id="departmentForm">
+
+			<p:growl id="growl" showDetail="true" />
+			<p:growl id="growl-sticky" for="sticky-key" showDetail="true"
+				sticky="true" />
+			<p:messages id="messages" showDetail="true" closable="true"
+				globalOnly="true" />
+
+			<div class="form-group">
+				<div class="col-sm-4"></div>
+			</div>
+
+			<p:dataTable id="departmentTable" selectionMode="single"
+				selection="#{controllerDepartment.selectDepartment}"
+				rowKey="#{dipartimento.idDep}" rows="20"
+				value="#{controllerDepartment.arrDepartment}" var="dipartimento"
+				styleClass="table table-hover">
+
+				<p:column headerText="Nome Dipartimento">
+					<h:outputText value="#{dipartimento.nameDep}">
+					</h:outputText>
+				</p:column>
+				<f:facet name="header">
+
+
+					<!-- Bottoni  -->
+
+					<!-- 	Modfica  -->
+					<p:commandButton value="Modica un dipartimento" id="btnModificaD"
+						process="departmentTable"
+						update="departmentTable,:departmentForm:editPanelD"
+						action="#{controllerDepartment.openModify()}"
+						styleClass="btn btn-success btnSpace">
+					</p:commandButton>
+
+					<!-- elimina  -->
+					<p:commandButton value="Elimina"
+						action="#{controllerDepartment.deleteDepartment()}"
+						update="departmentTable,:departmentForm:editPanelD"
+						process="departmentTable" style="width: 10rem"
+						styleClass="btn btn-success btnSpace"></p:commandButton>
+				</f:facet>
+			</p:dataTable>
+			<br />
+
+			<div align="center">
+				<!-- Nuovo button-->
+				<p:commandButton value="#{messages['createDep']}"
+					id="btnNuovoD" resetValue="true" process="@this"
+					action="#{controllerDepartment.openNew()}"
+					update="departmentTable,:departmentForm:newPanelD"
+					oncomplete="PF('newDepartmentDialog').show()" style="width: 10rem"
+					styleClass="GreenButton">
+				</p:commandButton>
+			</div>
+			<!--Dialog  -->
+
+			<p:dialog header="Modica un dipartimento" position="center"
+				widgetVar="editDepartmentDialog" modal="true" showEffect="blind"
+				hideEffect="fade" resizable="false">
+				<ui:include src="/editDepartment.xhtml"></ui:include>
+			</p:dialog>
+
+			<p:dialog header="Crea un dipartimento" position="center"
+				widgetVar="newDepartmentDialog" modal="true" showEffect="blind"
+				hideEffect="fade" resizable="false">
+				<ui:include src="/createDepartment.xhtml"></ui:include>
+			</p:dialog>
+
+		</h:form>
+
+	</h:body>
+</ui:composition>

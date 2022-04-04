@@ -1,0 +1,107 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//IT"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<title>Lista Employee</title>
+	</h:head>
+	<h:body>
+
+		<!-- Navbar -->
+		<ui:insert name="template">
+			<ui:include src="/pages/template.xhtml" />
+		</ui:insert>
+
+		<br />
+
+		<center>
+			<h2>
+				<h:outputText value="Employee Records" />
+			</h2>
+		</center>
+
+		<h:form id="employeeForm">
+			<p:growl id="growl" showDetail="true" />
+			<p:growl id="growl-sticky" for="sticky-key" showDetail="true"
+				sticky="true" />
+			<p:messages id="messages" showDetail="true" closable="true" />
+
+			<div class="form-group">
+				<div class="col-sm-4"></div>
+			</div>
+
+			<p:dataTable id="employeeTable" selectionMode="single"
+				selection="#{controllerEmployee.selectEmployee}"
+				rowKey="#{dipendente.idEmp}" rows="20"
+				tableStyle="background-color:#C6C3C6;padding:12px;"
+				value="#{controllerEmployee.arrEmployee}" var="dipendente"
+				styleClass="background-color:#C6C3C6;padding:12px;">
+
+				<p:column headerText="Nome Dipendente" styleClass="black">
+					<h:outputText value="#{dipendente.nameEmp}" />
+				</p:column>
+
+				<p:column headerText="Data Assunzione">
+					<h:outputText value="#{dipendente.dateEmp}" />
+				</p:column>
+				<p:column headerText="Salario">
+					<h:outputText value="#{dipendente.salaryEmp}" />
+				</p:column>
+
+				<p:column headerText="Dipartimento">
+					<h:outputText value="#{dipendente.department.nameDep}" />
+				</p:column>
+				<f:facet name="header">
+
+					<!-- Modifica -->
+					<p:commandButton value="Modica un dipendente" id="btnModificaE"
+						process="employeeTable"
+						update="employeeTable,employeeForm:employeePanel"
+						action="#{controllerEmployee.openModify()}"
+						styleClass="btn btn-success btnSpace">
+					</p:commandButton>
+
+					<!-- Elimina  -->
+					<p:commandButton value="Elimina"
+						action="#{controllerEmployee.deleteEmployee()}"
+						update="employeeTable,:employeeForm:editPanelE"
+						process="employeeTable" style="width: 10rem"
+						styleClass="btn btn-success btnSpace">
+					</p:commandButton>
+				</f:facet>
+			</p:dataTable>
+
+			<br />
+			<!-- Nuovo -->
+			<div align="center">
+				<p:commandButton value="#{messages['createEmp']}" id="btnNuovoE"
+					styleClass="GreenButton" resetValue="true" process="@this"
+					update="employeeTable,:employeeForm:newPanelE"
+					action="#{controllerEmployee.openNew()}"
+					oncomplete="PF('newEmployeeDialog').show()" style="width: 10rem">
+				</p:commandButton>
+
+			</div>
+
+			<!--Dialog  -->
+
+			<p:dialog header="Modica un dipendente" position="center"
+				widgetVar="editEmployeeDialog" modal="true" showEffect="blind"
+				hideEffect="fade" resizable="false">
+				<ui:include src="/editEmployee.xhtml"></ui:include>
+			</p:dialog>
+
+			<p:dialog header="Crea un dipendente" position="center"
+				widgetVar="newEmployeeDialog" modal="true" showEffect="blind"
+				hideEffect="fade" resizable="false">
+				<ui:include src="/createEmployee.xhtml"></ui:include>
+			</p:dialog>
+
+		</h:form>
+	</h:body>
+</ui:composition>
